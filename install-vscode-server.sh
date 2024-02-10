@@ -8,14 +8,15 @@ fi
 
 # Function to detect OS type
 detect_os() {
-    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-        echo "linux"
-    elif [[ "$OSTYPE" == "darwin"* ]]; then
-        echo "darwin"
+    if command -v lsb_release > /dev/null; then
+        os=$(lsb_release -si | tr '[:upper:]' '[:lower:]')
+    elif [ -e /etc/os-release ]; then
+        os=$(awk -F= '$1 == "ID" {print tolower($2)}' /etc/os-release)
     else
         echo "Unsupported OS"
         exit 1
     fi
+    echo "$os"
 }
 
 # Function to detect architecture
