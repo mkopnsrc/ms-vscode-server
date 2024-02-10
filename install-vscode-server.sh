@@ -24,7 +24,13 @@ detect_architecture() {
     architecture=$(uname -m)
     case $architecture in
         x86_64)
-            echo "x64"
+            echo "amd64"
+            ;;
+        armv7l)
+            echo "armhf"
+            ;;
+        aarch64)
+            echo "arm64"
             ;;
         *)
             echo "Unsupported architecture"
