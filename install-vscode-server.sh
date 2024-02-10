@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Check if script is executed with root permissions
+if [ "$(id -u)" -ne 0 ]; then
+    echo "Please run this script with sudo or as root."
+    exit 1
+fi
+
 # Function to detect OS type
 detect_os() {
     if [[ "$OSTYPE" == "linux-gnu"* ]]; then
