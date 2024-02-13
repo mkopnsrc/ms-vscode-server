@@ -20,7 +20,7 @@ detect_os() {
 }
 
 # Function to detect architecture
-detect_architecture() {
+detect_arch() {
     architecture=$(uname -m)
     case $architecture in
         x86_64)
@@ -98,8 +98,53 @@ check_installed_version() {
 # Main function
 main() {
     local os=$(detect_os)
-    local arch=$(detect_architecture)
-    download_vscode_server $os $arch
+    local arch=$(detect_arch)
+    local latest_version_url="https://github.com/coder/code-server/releases/latest"
+    local latest_version=$(curl -sSL -I -o /dev/null -w %{url_effective} "$latest_version_url" | grep -oP "(?<=tag/v)(.*)")
+    if [ -z "$latest_version" ]; then
+        echo "Failed to fetch latest version of code-server."
+        exit 1
+    fi
+    echo "Latest version of code-server: $latest_version"
+
+    local download_url="https://github.com/coder/code-server/releases/download/v${latest_version}"
+    local download_file=""
+    local package_name="code-server"
+    case $os in
+        "ubuntu"|"debian"|"pop"|"linuxmint"|"raspbian"|"kali"|"elementary"|"zorin")
+            download_file="${package_name}_${latest_version}_${arch}.deb"
+            package_manager="dpkg"
+            ;;
+        "centos"|"fedora"|"rocky"|"almalinux"|"redhat")
+            download_file="${package_name}-${latest_version}-${os}-${arch}.rpm"
+            package_manager="rpm"
+            ;;
+        *)
+            download_file="${package_name}-${latest_version}-${os}-${arch}.tar.gz"
+            ;;
+    esac
+    download_url="$download_url/$download_file"
+    local download_path="/tmp/${download_file}"
+    download_code_server "$download_url" "$download_path"
+
+    if [[ $download_file != *.tar.gz ]]; then
+        if check_installed_version "$package_name" "$latest_version"; then
+            install_code_server "$download_path" "$package_manager"
+        else
+            echo "Skipping installation."
+        fi
+    else
+        echo "Extracting code-server binary..."
+        tar -xzf "$download_path" -C /usr/local/bin/ --strip-components=1
+        if [ $? -ne 0 ]; then
+            echo "Failed to extract code-server binary."
+            exit 1
+        fi
+        echo "code-server binary extracted successfully."
+    fi
+
+    # Clean up downloaded file
+    rm "$download_path"
 }
 
 # Execute main function
