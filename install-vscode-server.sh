@@ -69,6 +69,7 @@ install_code_server() {
 check_installed_version() {
     local package_name="$1"
     local latest_version="$2"
+    local auto_upgrade="$3"
 
     local installed_version=""
     if dpkg-query -W "$package_name" >/dev/null 2>&1; then
@@ -80,16 +81,20 @@ check_installed_version() {
     if [ -n "$installed_version" ]; then
         echo "Installed version of $package_name: $installed_version"
         if [[ "$latest_version" != "$installed_version" ]]; then
-            echo "A newer version ($latest_version) of $package_name is available."
-            read -p "Do you want to upgrade to the latest version? [y/N]: " choice
-            case "$choice" in
-                y|Y)
-                    return 0
-                    ;;
-                *)
-                    return 1
-                    ;;
-            esac
+            if [[ "$auto_upgrade" == "true" ]]; then
+                return 0
+            else
+                echo "A newer version ($latest_version) of $package_name is available."
+                read -p "Do you want to upgrade to the latest version? [y/N]: " choice
+                case "$choice" in
+                    y|Y)
+                        return 0
+                        ;;
+                    *)
+                        return 1
+                        ;;
+                esac
+            fi
         fi
     fi
     return 1
@@ -99,6 +104,10 @@ check_installed_version() {
 main() {
     local os=$(detect_os)
     local arch=$(detect_arch)
+    local auto_upgrade="false"
+    if [[ "$1" == "--auto-upgrade" ]]; then
+        auto_upgrade="true"
+    fi
     local latest_version_url="https://github.com/coder/code-server/releases/latest"
     local latest_version=$(curl -sSL -I -o /dev/null -w %{url_effective} "$latest_version_url" | grep -oP "(?<=tag/v)(.*)")
     if [ -z "$latest_version" ]; then
@@ -128,7 +137,7 @@ main() {
     download_code_server "$download_url" "$download_path"
 
     if [[ $download_file != *.tar.gz ]]; then
-        if check_installed_version "$package_name" "$latest_version"; then
+        if check_installed_version "$package_name" "$latest_version" "$auto_upgrade"; then
             install_code_server "$download_path" "$package_manager"
         else
             echo "Skipping installation."
@@ -147,5 +156,5 @@ main() {
     rm "$download_path"
 }
 
-# Execute main function
-main
+# Execute main function with optional auto-upgrade argument
+main "$@"
