@@ -1,6 +1,7 @@
 # MS VSCode Server
 
 ## Installing Microsoft Visual Studio Code Server on Linux
+
 This guide provides instructions on how to use a bash script to automatically detect your Linux distribution and architecture, then download and install the latest version of Microsoft Visual Studio Code Server accordingly.
 
 ## Prerequisites
@@ -9,6 +10,17 @@ This guide provides instructions on how to use a bash script to automatically de
 - Bash shell
 - curl
 - Internet connection (for downloading the script and Visual Studio Code Server)
+
+## Features
+
+- **Automatic Detection**: Automatically detects the Linux distribution and architecture of your system to download the appropriate version of Microsoft Visual Studio Code Server. The script supports the following Linux distributions:
+
+  - **DEB Based**: Ubuntu, Debian, Pop!_OS, Linux Mint, Raspbian, Kali Linux, Elementary OS, Zorin OS
+  - **RPM Based**: CentOS, Fedora, Rocky Linux, AlmaLinux, Red Hat Enterprise Linux (RHEL)
+
+- **Flexible Installation Options**: Offers options to run the script with or without automatic package upgrade, providing a customizable installation experience.
+
+- **Error Handling and Prompts**: Provides error handling for unsupported operating systems or architectures and prompts the user for confirmation before upgrading the package.
 
 ## Instructions
 
@@ -19,25 +31,29 @@ The script will automatically detect your Linux distribution and architecture, t
 1. **Download and Automatically Execute the Bash Script**: Please review the script content before running.
    ```bash
     bash -c "$(curl -fsSL https://raw.githubusercontent.com/mkopnsrc/ms-vscode-server/main/install_vscode_server.sh)"
-   ```
 
-2. **Verify Installation**: Once the script completes, verify that Microsoft Visual Studio Code Server has been installed successfully by navigating to the installation directory or by running the server.
+# Additional Information
 
-## Notes
+## Security
 
-- The script is designed to work on various Linux distributions. However, if you encounter any issues, feel free to report them or customize the script to suit your specific requirements.
+- **Download from Trusted Source**: Ensure that you download the script from a trusted source. Review the script content before executing it on your system to ensure it does not contain any malicious code. Always verify the authenticity of the download source, especially when executing commands with elevated privileges.
 
-- If you encounter any errors or issues during installation, please refer to this git repository and report an issue or consult the official documentation for Microsoft Visual Studio Code Server.
+## Updating
 
-## Troubleshooting
+- **Check for Updates**: Periodically check for updates to the script to ensure you are using the latest version. This can help you benefit from bug fixes, enhancements, and security updates.
 
-- **Unsupported OS or Architecture**: If the script detects an unsupported operating system or architecture, it will display an error message and exit. Ensure that you are running the script on a supported Linux distribution and architecture.
+## Contributing
 
-- **Failed to Download**: If the script fails to download Microsoft Visual Studio Code Server, verify your internet connection and try running the script again.
+- **Contribute to the Project**: If you encounter any issues or have suggestions for improvements, feel free to contribute to the project by opening pull requests or submitting bug reports. Collaboration helps improve the script for everyone.
 
-- **Permission Denied**: If you encounter permission denied errors when running the script, ensure that you have the necessary permissions to execute the script. You may need to use `sudo` or contact your system administrator.
+## License
 
-## Support
+- **License Information**: Consider including information about the license under which the script is distributed. This helps users understand their rights and responsibilities when using the script.
 
-For additional assistance or support, please open an issue in this repository or contact the maintainers.
+## Documentation
 
+- **Official Documentation**: Provide links to additional documentation, such as the official documentation for Microsoft Visual Studio Code Server or any specific usage instructions related to your script.
+
+## Feedback
+
+- **User Feedback**: Encourage users to provide feedback on their experience with the script. This can help identify areas for improvement and enhance the usability of the script for all users.
