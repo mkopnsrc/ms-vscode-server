@@ -27,8 +27,15 @@ This guide provides instructions on how to use a bash script to automatically de
 ### What the script will do?
 The script will automatically detect your Linux distribution and architecture, then download the appropriate version of Microsoft Visual Studio Code Server. Follow any on-screen prompts or instructions provided by the script.
 
-### Let's Begin
-1. **Download and Automatically Execute the Bash Script**: Please review the script content before running.
+## User Input Examples
+**Download and Automatically Execute the Bash Script**: Please review the script content before running.
+
+- **Auto-Upgrade**: Use the `--auto-upgrade` flag to automatically upgrade the package without prompting the user.
+
+  ```bash
+  bash -c "$(curl -fsSL https://raw.githubusercontent.com/mkopnsrc/ms-vscode-server/main/install_vscode_server.sh)" --auto-upgrade
+
+- **Without User Input**: Will prompt the user if it's needs an upgrade for existing installation
    ```bash
     bash -c "$(curl -fsSL https://raw.githubusercontent.com/mkopnsrc/ms-vscode-server/main/install_vscode_server.sh)"
 
