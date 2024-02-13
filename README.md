@@ -33,11 +33,11 @@ The script will automatically detect your Linux distribution and architecture, t
 - **Auto-Upgrade**: Use the `--auto-upgrade` flag to automatically upgrade the package without prompting the user.
 
   ```bash
-  bash -c "$(curl -fsSL https://raw.githubusercontent.com/mkopnsrc/ms-vscode-server/main/install_vscode_server.sh)" --auto-upgrade
+  bash -c "$(curl -fsSL https://raw.githubusercontent.com/mkopnsrc/ms-vscode-server/main/install-vscode-server.sh)" --auto-upgrade
 
 - **Without User Input**: Will prompt the user if it's needs an upgrade for existing installation
    ```bash
-    bash -c "$(curl -fsSL https://raw.githubusercontent.com/mkopnsrc/ms-vscode-server/main/install_vscode_server.sh)"
+    bash -c "$(curl -fsSL https://raw.githubusercontent.com/mkopnsrc/ms-vscode-server/main/install-vscode-server.sh)"
 
 # Additional Information
 
